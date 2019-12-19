@@ -7,13 +7,15 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Getter
 @Setter
-public class Demande {
+@Table(name = "demande")
+public class Demande{
 
     @Id
     @GeneratedValue(generator = "system-uuid")
@@ -22,7 +24,7 @@ public class Demande {
     private String nom;
     private String prenom;
     private String adresse;
-    private Date date_de_naissance;
+    private String date_de_naissance;
     private int revenus_sur_trois_annees;
     private int montant_credit;
     private int duree_en_mois;

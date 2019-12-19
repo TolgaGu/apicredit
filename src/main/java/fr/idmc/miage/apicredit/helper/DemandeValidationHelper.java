@@ -5,7 +5,7 @@ import fr.idmc.miage.apicredit.exception.DemandeValidationException;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DemandeValidationHekper {
+public class DemandeValidationHelper {
     public void validate(Demande demande){
         if (demande == null)
             throw new DemandeValidationException("La demande ne peut pas être null");

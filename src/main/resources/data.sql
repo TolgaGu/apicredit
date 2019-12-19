@@ -1,0 +1,1 @@
+INSERT INTO demande (id, nom, prenom, adresse, date_de_naissance, revenus_sur_trois_annees, montant_credit, duree_en_mois, etat_demande) VALUES ('ff8081816e9e21ef016e9e532db80000','test','test','test', '15-15-1995', 100000, 20000, 18,1);
