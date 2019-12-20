@@ -7,15 +7,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class DemandeValidationHelper {
     public void validate(Demande demande){
-        if (demande == null)
+        if (demande == null )
             throw new DemandeValidationException("La demande ne peut pas être null");
-        if (demande.getNom() == null)
+        if (demande.getNom().isBlank())
             throw new DemandeValidationException("Le nom ne peut pas être null");
-        if (demande.getPrenom() == null)
+        if (demande.getPrenom().isBlank())
             throw new DemandeValidationException("Le prenom ne peut pas être null");
-        if (demande.getAdresse() == null)
+        if (demande.getAdresse().isBlank())
             throw new DemandeValidationException("L'adresse ne peut pas être null");
-        if (demande.getDate_de_naissance() == null)
+        if (demande.getDate_de_naissance().isBlank())
             throw new DemandeValidationException("La date de naissance ne peut pas être null");
         if (demande.getDuree_en_mois() <= 0)
             throw new DemandeValidationException("la duree du credit doit être supérieur à 0");

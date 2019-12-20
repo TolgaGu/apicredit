@@ -41,9 +41,16 @@ public class DemandeControler {
                 .map(i -> new ResponseEntity<>(demandeAssembleur.toResource(i.get()), HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
     @PostMapping
-    public Demande create(@RequestBody Demande demande){
+    public ResponseEntity<?> create(@RequestBody Demande demande){
         Demande d = demandeService.create(demande);
-        return d;
+        return new ResponseEntity<>(d,HttpStatus.CREATED);
+    }
+
+    @PutMapping({"id"})
+    public ResponseEntity<?> put(@PathVariable("id") String id, @RequestBody Demande demande){
+        Demande d = demandeService.put(id,demande);
+        return new ResponseEntity<>(d,HttpStatus.OK);
     }
 }
