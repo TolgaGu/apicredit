@@ -19,11 +19,15 @@ public class ActionService {
 
     public List<Action> getAllActions(String id) {
         List<Action> res = new ArrayList<>();
-        //actionRepository.findActionsByDemandeId(id).forEach(res::add);
+        actionRepository.findActionsByDemandeId(id).forEach(res::add);
         return res;
     }
 
     public Optional<Action> getAction(String id) {
         return actionRepository.findById(id);
+    }
+
+    public Action addAction(Action action) {
+        return actionRepository.save(action);
     }
 }

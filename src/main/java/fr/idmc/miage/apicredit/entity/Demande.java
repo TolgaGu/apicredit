@@ -32,4 +32,8 @@ public class Demande  {
     private int montant_credit;
     private int duree_en_mois;
     private EtatDemande etat_demande;
+
+    public Demande(String id){
+        this.id=id;
+    }
 }

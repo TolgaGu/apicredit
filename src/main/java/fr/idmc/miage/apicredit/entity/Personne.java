@@ -21,6 +21,4 @@ public class Personne {
     private String id;
     private String nom;
     private String prenom;
-    @OneToMany(mappedBy = "personne_en_charge",targetEntity = Action.class)
-    private Set<String> list_actions;
 }
