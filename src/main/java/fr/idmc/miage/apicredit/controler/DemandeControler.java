@@ -22,7 +22,7 @@ public class DemandeControler {
     private final DemandeAssembleur demandeAssembleur;
 
     @GetMapping
-    public ResponseEntity<?> getAll(@PathParam("status") String status, Pageable pageable, PagedResourcesAssembler pagedResourcesAssembler){
+    public ResponseEntity<?> getAll(@PathParam("status") String status, Pageable pageable, PagedResourcesAssembler<Demande> pagedResourcesAssembler){
         Page<Demande> demandes = (status == null)
                 ? demandeService.findAll(pageable)
                 : demandeService.findByStatus(status, pageable);

@@ -1,6 +1,7 @@
 package fr.idmc.miage.apicredit.controler;
 
 
+import fr.idmc.miage.apicredit.assembler.ActionAssembleur;
 import fr.idmc.miage.apicredit.entity.Action;
 import fr.idmc.miage.apicredit.entity.Demande;
 import fr.idmc.miage.apicredit.service.ActionService;
@@ -11,20 +12,26 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("demandes")
 @RequiredArgsConstructor
 public class ActionDemandeControler {
     private final ActionService actionService;
+    private final ActionAssembleur actionAssembleur;
 
     @GetMapping("/{id}/actions")
-    public ResponseEntity<?> getAll(@PathVariable("id") String id, Pageable pageable, PagedResourcesAssembler pagedResourcesAssembler){
-        return new ResponseEntity<>(actionService.getAllActions(id, pageable), HttpStatus.OK);
+    public ResponseEntity<?> getAll(@PathVariable("id") String id, Pageable pageable, PagedResourcesAssembler<Action> pagedResourcesAssembler){
+        return new ResponseEntity<>(pagedResourcesAssembler.toResource(actionService.getAllActions(id, pageable),actionAssembleur), HttpStatus.OK);
     }
 
     @GetMapping("/{demandeId}/actions/{id}")
-    public ResponseEntity<?> getById(@PathVariable("id") String id){
-        return new ResponseEntity<>(actionService.getAction(id), HttpStatus.OK);
+    public ResponseEntity<?> getById(@PathVariable("demandeId") String demandeId,@PathVariable("id") String id, Pageable pageable, PagedResourcesAssembler<Action> pagedResourcesAssembler){
+       return Optional.ofNullable(actionService.getAction(id))
+                .filter(Optional::isPresent)
+                .map(i -> new ResponseEntity<>(actionAssembleur.toResource(i.get()), HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
     @PostMapping("/{demandeId}/actions")
     public ResponseEntity<?> post(@RequestBody Action action,@PathVariable("demandeId") String demandeId){

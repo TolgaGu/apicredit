@@ -1,7 +1,6 @@
 package fr.idmc.miage.apicredit.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Entity;
@@ -14,6 +13,8 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Personne {
     @Id
     @GeneratedValue(generator = "system-uuid")
