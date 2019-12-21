@@ -22,4 +22,8 @@ public class Personne {
     private String id;
     private String nom;
     private String prenom;
+
+    public Personne(String id){
+        this.id=id;
+    }
 }
