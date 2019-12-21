@@ -47,5 +47,9 @@ public class DemandeService {
         return demandeRepository.save(demande);
     }
 
-
+    public Demande delete(String id) {
+        Demande e = demandeRepository.findById(id).orElseThrow(() -> new DemandeNotFoundException(id));
+        e.setEtat_demande(EtatDemande.FIN);
+        return demandeRepository.save(e);
+    }
 }

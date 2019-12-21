@@ -48,9 +48,15 @@ public class DemandeControler {
         return new ResponseEntity<>(d,HttpStatus.CREATED);
     }
 
-    @PutMapping({"id"})
+    @PutMapping("{id}")
     public ResponseEntity<?> put(@PathVariable("id") String id, @RequestBody Demande demande){
         Demande d = demandeService.put(id,demande);
         return new ResponseEntity<>(d,HttpStatus.OK);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<?> delete(@PathVariable("id") String id){
+        Demande d = demandeService.delete(id);
+        return  new ResponseEntity<>(d,HttpStatus.OK);
     }
 }

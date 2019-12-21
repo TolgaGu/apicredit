@@ -5,6 +5,8 @@ import fr.idmc.miage.apicredit.entity.Action;
 import fr.idmc.miage.apicredit.entity.Demande;
 import fr.idmc.miage.apicredit.service.ActionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,8 +18,8 @@ public class ActionControler {
     private final ActionService actionService;
 
     @GetMapping("/{id}/actions")
-    public ResponseEntity<?> getAll(@PathVariable("id") String id){
-        return new ResponseEntity<>(actionService.getAllActions(id), HttpStatus.OK);
+    public ResponseEntity<?> getAll(@PathVariable("id") String id, Pageable pageable, PagedResourcesAssembler pagedResourcesAssembler){
+        return new ResponseEntity<>(actionService.getAllActions(id, pageable), HttpStatus.OK);
     }
 
     @GetMapping("/{demandeId}/actions/{id}")
@@ -26,7 +28,13 @@ public class ActionControler {
     }
     @PostMapping("/{demandeId}/actions")
     public ResponseEntity<?> post(@RequestBody Action action,@PathVariable("demandeId") String demandeId){
-        action.setDemande(new Demande(demandeId));
-        return new ResponseEntity<>(actionService.addAction(action),HttpStatus.CREATED);
+
+        return new ResponseEntity<>(actionService.addAction(action,demandeId),HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{demandeId}/actions/{id}")
+    public ResponseEntity<?> put(@RequestBody Action action,@PathVariable("demandeId") String demandeId, @PathVariable("id") String id){
+        Action a = actionService.update(action,demandeId,id);
+        return new ResponseEntity<>(a,HttpStatus.OK);
     }
 }

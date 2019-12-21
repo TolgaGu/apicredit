@@ -6,7 +6,6 @@ import fr.idmc.miage.apicredit.entity.Demande;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.ResourceAssembler;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import static org.springframework.hateoas.core.DummyInvocationUtils.methodOn;
