@@ -27,9 +27,6 @@ public class Demande  {
     private int duree_en_mois;
     private EtatDemande etat_demande;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    private Set<Action> actions;
-
     public Demande(String id){
         this.id=id;
     }

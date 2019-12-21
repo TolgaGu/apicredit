@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("demandes")
 @RequiredArgsConstructor
-public class ActionControler {
+public class ActionDemandeControler {
     private final ActionService actionService;
 
     @GetMapping("/{id}/actions")
@@ -23,7 +23,7 @@ public class ActionControler {
     }
 
     @GetMapping("/{demandeId}/actions/{id}")
-    public ResponseEntity<?> get(@PathVariable("id") String id){
+    public ResponseEntity<?> getById(@PathVariable("id") String id){
         return new ResponseEntity<>(actionService.getAction(id), HttpStatus.OK);
     }
     @PostMapping("/{demandeId}/actions")

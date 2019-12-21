@@ -1,6 +1,6 @@
 package fr.idmc.miage.apicredit.assembler;
 
-import fr.idmc.miage.apicredit.controler.ActionControler;
+import fr.idmc.miage.apicredit.controler.ActionDemandeControler;
 import fr.idmc.miage.apicredit.controler.DemandeControler;
 import fr.idmc.miage.apicredit.entity.Demande;
 
@@ -21,7 +21,7 @@ public class DemandeAssembleur implements ResourceAssembler<Demande, Resource> {
                 demande,
                 ControllerLinkBuilder.linkTo(methodOn(DemandeControler.class).getById(demande.getId())).withSelfRel(),
                 linkTo(methodOn(DemandeControler.class).getAll(null, null, null)).withRel("collection"),
-                linkTo(methodOn(ActionControler.class).getAll(demande.getId(),null,null)).withRel("actions")
+                linkTo(methodOn(ActionDemandeControler.class).getAll(demande.getId(),null,null)).withRel("actions")
         );
     }
 }
