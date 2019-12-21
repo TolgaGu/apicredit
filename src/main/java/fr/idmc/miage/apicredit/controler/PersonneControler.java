@@ -12,10 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
 import java.util.Optional;
@@ -29,7 +26,7 @@ public class PersonneControler {
     private final PersonneAssembleur personneAssembleur;
 
     @GetMapping
-    public ResponseEntity<?> getAll(@PathParam("recherche") String recherche , Pageable pageable, PagedResourcesAssembler<Personne> pagedResourcesAssembler){
+    public ResponseEntity<?> getAll(@PathParam("recherche") String recherche, Pageable pageable, PagedResourcesAssembler<Personne> pagedResourcesAssembler) {
         Page<Personne> personnes = (recherche == null || recherche.isBlank())
                 ? personneService.findAll(pageable)
                 : personneService.findByNomOrPrenom(recherche, pageable);
@@ -42,10 +39,17 @@ public class PersonneControler {
 
 
     @GetMapping(value = "{id}")
-    public ResponseEntity<?> getById(@PathVariable("id") String id){
+    public ResponseEntity<?> getById(@PathVariable("id") String id) {
         return Optional.ofNullable(personneService.findById(id))
                 .filter(Optional::isPresent)
                 .map(i -> new ResponseEntity<>(personneAssembleur.toResource(i.get()), HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+
+    @PutMapping("{id}")
+    public ResponseEntity<?> put(@PathVariable("id") String id, @RequestBody Personne personne){
+        Personne p = personneService.put(id,personne);
+        return new ResponseEntity<>(p,HttpStatus.OK);
     }
 }

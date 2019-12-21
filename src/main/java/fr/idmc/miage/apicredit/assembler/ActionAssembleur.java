@@ -20,7 +20,7 @@ public class ActionAssembleur implements ResourceAssembler<Action, Resource> {
     public Resource toResource(Action action) {
         return new Resource(
                 action,
-                ControllerLinkBuilder.linkTo(methodOn(ActionControler.class).getById(action.getDemande().getId(),action.getId(),null,null)).withSelfRel(),
+                ControllerLinkBuilder.linkTo(methodOn(ActionControler.class).getById(action.getId(),null,null)).withSelfRel(),
                 linkTo(methodOn(DemandeControler.class).getById(action.getDemande().getId())).withRel("demande"),
                 linkTo(methodOn(PersonneControler.class).getById(action.getPersonne().getId())).withRel("personne")
         );

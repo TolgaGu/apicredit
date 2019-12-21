@@ -4,6 +4,7 @@ import fr.idmc.miage.apicredit.entity.Action;
 import fr.idmc.miage.apicredit.entity.Demande;
 import fr.idmc.miage.apicredit.exception.ActionNotFoundException;
 import fr.idmc.miage.apicredit.exception.DemandeNotFoundException;
+import fr.idmc.miage.apicredit.helper.ActionValidationHelper;
 import fr.idmc.miage.apicredit.repository.ActionRepository;
 import fr.idmc.miage.apicredit.repository.DemandeRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ public class ActionService {
     private final ActionRepository actionRepository;
     @Autowired
     private final DemandeRepository demandeRepository;
+    private final ActionValidationHelper actionValidationHelper;
 
     public Page<Action> getAllActionsFromDemande(String id, Pageable pageable) {
         return actionRepository.findActionsByDemandeId(id,pageable);
@@ -37,9 +39,12 @@ public class ActionService {
         return actionRepository.findById(id);
     }
 
-    public Optional<Action> addAction(Action action, String demandeId) {
-        action.setDemande(new Demande(demandeId));
-        return actionRepository.findById(actionRepository.save(action).getId());
+    public Action addAction(Action action, String demandeId) {
+
+        Demande e = demandeRepository.findById(demandeId).orElseThrow(() -> new DemandeNotFoundException(demandeId));
+        action.setDemande(e);
+        actionValidationHelper.validate(action);
+        return actionRepository.save(action);
     }
 
     public Action update(Action action, String demandeId, String id) {

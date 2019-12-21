@@ -29,7 +29,7 @@ public class ActionDemandeControler {
     @PostMapping("/{demandeId}/actions")
     public ResponseEntity<?> post(@RequestBody Action action,@PathVariable("demandeId") String demandeId){
 
-        return new ResponseEntity<>(actionService.addAction(action,demandeId),HttpStatus.CREATED);
+        return new ResponseEntity<>(actionAssembleur.toResource(actionService.addAction(action,demandeId)),HttpStatus.CREATED);
     }
 
     @PutMapping("/{demandeId}/actions/{id}")

@@ -2,6 +2,8 @@ package fr.idmc.miage.apicredit.service;
 
 import fr.idmc.miage.apicredit.entity.Demande;
 import fr.idmc.miage.apicredit.entity.Personne;
+import fr.idmc.miage.apicredit.exception.DemandeNotFoundException;
+import fr.idmc.miage.apicredit.exception.PersonneNotFoundException;
 import fr.idmc.miage.apicredit.helper.PersonneValidationHelper;
 import fr.idmc.miage.apicredit.repository.PersonneRepository;
 import lombok.RequiredArgsConstructor;
@@ -34,5 +36,11 @@ public class PersonneService {
 
     public Page<Personne> findByNomOrPrenom(String recherche, Pageable pageable) {
             return personneRepository.findByNomOrPrenomContains(recherche,pageable);
+    }
+
+    public Personne put(String id, Personne personne) {
+        Personne e = personneRepository.findById(id).orElseThrow(() -> new PersonneNotFoundException(id));
+        personne.setId(e.getId());
+        return personneRepository.save(personne);
     }
 }
