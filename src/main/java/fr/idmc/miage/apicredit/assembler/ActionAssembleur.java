@@ -1,7 +1,9 @@
 package fr.idmc.miage.apicredit.assembler;
 
+import fr.idmc.miage.apicredit.controler.ActionControler;
 import fr.idmc.miage.apicredit.controler.ActionDemandeControler;
 import fr.idmc.miage.apicredit.controler.DemandeControler;
+import fr.idmc.miage.apicredit.controler.PersonneControler;
 import fr.idmc.miage.apicredit.entity.Action;
 import fr.idmc.miage.apicredit.entity.Demande;
 import org.springframework.hateoas.Resource;
@@ -18,8 +20,9 @@ public class ActionAssembleur implements ResourceAssembler<Action, Resource> {
     public Resource toResource(Action action) {
         return new Resource(
                 action,
-                ControllerLinkBuilder.linkTo(methodOn(ActionDemandeControler.class).getById(action.getDemande().getId(),action.getId())).withSelfRel(),
-                linkTo(methodOn(DemandeControler.class).getAll(null, null, null)).withRel("collection"),
-                linkTo(methodOn(DemandeControler.class).getById(action.getDemande().getId())).withRel("demande"));
+                ControllerLinkBuilder.linkTo(methodOn(ActionControler.class).getById(action.getDemande().getId(),action.getId(),null,null)).withSelfRel(),
+                linkTo(methodOn(DemandeControler.class).getById(action.getDemande().getId())).withRel("demande"),
+                linkTo(methodOn(PersonneControler.class).getById(action.getPersonne().getId())).withRel("personne")
+        );
     }
 }

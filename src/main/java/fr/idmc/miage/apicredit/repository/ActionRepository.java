@@ -10,4 +10,6 @@ import java.util.List;
 public interface ActionRepository extends CrudRepository<Action,String> {
 
     Page<Action> findActionsByDemandeId(String id, Pageable pageable);
+
+    Page<Action> findActionsByPersonneId(String id, Pageable pageable);
 }

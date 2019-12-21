@@ -1,20 +1,24 @@
 package fr.idmc.miage.apicredit.controler;
 
 
+import fr.idmc.miage.apicredit.assembler.PersonneAssembleur;
 import fr.idmc.miage.apicredit.entity.Demande;
 import fr.idmc.miage.apicredit.entity.Personne;
 import fr.idmc.miage.apicredit.service.PersonneService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.websocket.server.PathParam;
+import java.util.Optional;
 
 @RequestMapping("personnes")
 @RestController
@@ -22,17 +26,26 @@ import javax.websocket.server.PathParam;
 public class PersonneControler {
 
     private final PersonneService personneService;
+    private final PersonneAssembleur personneAssembleur;
 
     @GetMapping
-    public ResponseEntity<?> getAll(@PathParam("nom") String nom,@PathParam("prenom") String prenom, Pageable pageable, PagedResourcesAssembler<Personne> pagedResourcesAssembler){
-        Page<Demande> demandes = (nom.isBlank() && prenom.isBlank())
-                ? demandeService.findAll(pageable)
-                : demandeService.findByStatus(status, pageable);
+    public ResponseEntity<?> getAll(@PathParam("recherche") String recherche , Pageable pageable, PagedResourcesAssembler<Personne> pagedResourcesAssembler){
+        Page<Personne> personnes = (recherche == null || recherche.isBlank())
+                ? personneService.findAll(pageable)
+                : personneService.findByNomOrPrenom(recherche, pageable);
 
-        if (demandes.isEmpty()) {
+        if (personnes.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(pagedResourcesAssembler.toResource(demandes, demandeAssembleur), HttpStatus.OK);
+        return new ResponseEntity<>(pagedResourcesAssembler.toResource(personnes, personneAssembleur), HttpStatus.OK);
+    }
 
+
+    @GetMapping(value = "{id}")
+    public ResponseEntity<?> getById(@PathVariable("id") String id){
+        return Optional.ofNullable(personneService.findById(id))
+                .filter(Optional::isPresent)
+                .map(i -> new ResponseEntity<>(personneAssembleur.toResource(i.get()), HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }

@@ -22,7 +22,7 @@ public class Action {
     private String nom_action;
 
     @ManyToOne
-    private Personne personne_en_charge;
+    private Personne personne;
 
     @ManyToOne
     private Demande demande;

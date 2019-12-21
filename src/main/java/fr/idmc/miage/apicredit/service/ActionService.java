@@ -23,8 +23,13 @@ public class ActionService {
     @Autowired
     private final DemandeRepository demandeRepository;
 
-    public Page<Action> getAllActions(String id, Pageable pageable) {
+    public Page<Action> getAllActionsFromDemande(String id, Pageable pageable) {
         return actionRepository.findActionsByDemandeId(id,pageable);
+
+    }
+
+    public Page<Action> getAllActionsFromPersonne(String id, Pageable pageable) {
+        return actionRepository.findActionsByPersonneId(id,pageable);
 
     }
 
@@ -32,9 +37,9 @@ public class ActionService {
         return actionRepository.findById(id);
     }
 
-    public Action addAction(Action action,String demandeId) {
+    public Optional<Action> addAction(Action action, String demandeId) {
         action.setDemande(new Demande(demandeId));
-        return actionRepository.save(action);
+        return actionRepository.findById(actionRepository.save(action).getId());
     }
 
     public Action update(Action action, String demandeId, String id) {

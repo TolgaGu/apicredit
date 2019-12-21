@@ -31,4 +31,8 @@ public class PersonneService {
     public Optional<Personne> findById(String id) {
         return personneRepository.findById(id);
     }
+
+    public Page<Personne> findByNomOrPrenom(String recherche, Pageable pageable) {
+            return personneRepository.findByNomOrPrenomContains(recherche,pageable);
+    }
 }
