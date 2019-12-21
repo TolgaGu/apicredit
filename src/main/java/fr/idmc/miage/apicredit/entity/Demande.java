@@ -1,17 +1,11 @@
 package fr.idmc.miage.apicredit.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -32,6 +26,9 @@ public class Demande  {
     private int montant_credit;
     private int duree_en_mois;
     private EtatDemande etat_demande;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    private Set<Action> actions;
 
     public Demande(String id){
         this.id=id;

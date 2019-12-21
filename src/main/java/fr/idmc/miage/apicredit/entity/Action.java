@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -25,9 +26,9 @@ public class Action {
 
 
     @ManyToOne
-    @JoinColumn(name = "demande")
     private Demande demande;
     private EtatAction etat_action;
 
+    @CreatedDate
     private Timestamp date_execution;
 }
