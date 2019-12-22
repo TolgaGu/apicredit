@@ -52,4 +52,8 @@ public class DemandeService {
         e.setEtat_demande(EtatDemande.FIN);
         return demandeRepository.save(e);
     }
+
+    public void setEtatDemande(String id, EtatDemande etatDemande){
+
+    }
 }

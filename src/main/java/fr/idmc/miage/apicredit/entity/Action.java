@@ -19,7 +19,7 @@ public class Action {
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
-    private String nom_action;
+    private NomAction nom_action;
 
     @ManyToOne
     private Personne personne;
