@@ -1,16 +1,16 @@
-package fr.idmc.miage.apicredit;
+package org.miage.oauthservice;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-
+@RunWith(SpringRunner.class)
 @SpringBootTest
-class ApicreditApplicationTests {
+public class OauthServiceApplicationTests {
 
 	@Test
-	void contextLoads() {
+	public void contextLoads() {
 	}
 
 }
