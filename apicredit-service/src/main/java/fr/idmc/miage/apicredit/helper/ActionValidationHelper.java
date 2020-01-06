@@ -1,7 +1,6 @@
 package fr.idmc.miage.apicredit.helper;
 
-import fr.idmc.miage.apicredit.entity.Action;
-import fr.idmc.miage.apicredit.entity.EtatDemande;
+import fr.idmc.miage.apicredit.entity.*;
 import fr.idmc.miage.apicredit.exception.ActionValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -18,46 +17,33 @@ public class ActionValidationHelper {
     }
 
     /**
-     * Si l'action courante est conforme à l'etat actuel de la demande
-     * ex : une demande ne peut passer de DEBUT à ACCEPTATION
-     * @param action
+     * en fonction de l'état actuel de la demande, on fourni l'état de la nouvelle action
+     * @param demande
      */
-    public EtatDemande isCoherent(Action action) {
+    public NomAction getNextActionNameCorrespondingToEtatDemande(Demande demande) {
 
 
-        EtatDemande currentEtat = action.getDemande().getEtat_demande();
-        EtatDemande newEtat=null;
+        EtatDemande currentEtat = demande.getEtat_demande();
+        NomAction newAction=null;
+//
 
-
-        switch (action.getNom_action()){
-            case REJET:
-                if(currentEtat != EtatDemande.DECISION)
-                    throw new ActionValidationException("Une demande ne peut passer en REJET qu'uniquement lorsqu'elle a un état DECISION");
-                newEtat=EtatDemande.REJET;
+        switch (currentEtat){
+            case DEBUT:
+                newAction=NomAction.REVUS_EN_COURS;
                 break;
-            case NOTIFICATION:
-                if(currentEtat != EtatDemande.DECISION)
-                    throw new ActionValidationException("Une demande ne peut passer en ACCEPTATION qu'uniquement lorsqu'elle a un état DECISION");
-                newEtat=EtatDemande.ACCEPTATION;
+            case ETUDE:
+                newAction=NomAction.DECISION_EN_ATTENTE_DE_VALIDATION;
                 break;
-            case REVUS_EN_COURS:
-                if(currentEtat != EtatDemande.DEBUT)
-                    throw new ActionValidationException("Une demande ne peut passer en ETUDE qu'uniquement lorsqu'elle a un état DEBUT");
-                newEtat=EtatDemande.ETUDE;
+            case DECISION:
+                newAction=NomAction.NOTIFICATION;
                 break;
-            case EN_ATTENTE_D_ATTRIBUTION:
-                if(currentEtat != null)
-                    throw new ActionValidationException("Une demande ne peut passer en DEBUT qu'uniquement lorsqu'elle n'a pas d'état");
-                newEtat=EtatDemande.DEBUT;
-                break;
-            case DECISION_EN_ATTENTE_DE_VALIDATION:
-                if(currentEtat != EtatDemande.ETUDE)
-                    throw new ActionValidationException("Une demande ne peut passer en DECISION qu'uniquement lorsqu'elle a un état ETUDE");
-                newEtat=EtatDemande.DECISION;
+            case ACCEPTATION:
+                newAction=NomAction.NOTIFICATION;
                 break;
             default:
+                newAction= NomAction.EN_ATTENTE_D_ATTRIBUTION;
                 break;
         }
-        return newEtat;
+        return newAction;
     }
 }

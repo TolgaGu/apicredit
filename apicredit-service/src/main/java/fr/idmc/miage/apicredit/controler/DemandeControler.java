@@ -2,6 +2,9 @@ package fr.idmc.miage.apicredit.controler;
 
 import fr.idmc.miage.apicredit.assembler.DemandeAssembleur;
 import fr.idmc.miage.apicredit.entity.Demande;
+import fr.idmc.miage.apicredit.entity.Personne;
+import fr.idmc.miage.apicredit.input.InputDemande;
+import fr.idmc.miage.apicredit.service.ActionService;
 import fr.idmc.miage.apicredit.service.DemandeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -11,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.PersistenceProperty;
 import javax.websocket.server.PathParam;
 import java.util.Optional;
 
@@ -20,6 +24,7 @@ import java.util.Optional;
 public class DemandeControler {
     private final DemandeService demandeService;
     private final DemandeAssembleur demandeAssembleur;
+    private final ActionService actionService;
 
     @GetMapping
     public ResponseEntity<?> getAll(@PathParam("status") String status, Pageable pageable, PagedResourcesAssembler<Demande> pagedResourcesAssembler){
@@ -43,10 +48,11 @@ public class DemandeControler {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody Demande demande){
+    public ResponseEntity<?> create(@RequestBody InputDemande demande){
         Demande d = demandeService.create(demande);
         return new ResponseEntity<>(d,HttpStatus.CREATED);
     }
+
 
     @PutMapping("{id}")
     public ResponseEntity<?> put(@PathVariable("id") String id, @RequestBody Demande demande){

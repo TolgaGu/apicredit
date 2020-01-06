@@ -44,21 +44,16 @@ public class ActionService {
         return actionRepository.findById(id);
     }
 
-    public Action addAction(Action action, String demandeId) {
+    public void addAction(String demandeId) {
 
         Demande e = demandeRepository.findById(demandeId).orElseThrow(() -> new DemandeNotFoundException(demandeId));
-        Personne p = personneRepository.findById(action.getPersonne().getId()).orElseThrow(() -> new PersonneNotFoundException(action.getPersonne().getId()));
-        action.setDemande(e);
-        actionValidationHelper.validate(action);
 
-        EtatDemande etatDemande = actionValidationHelper.isCoherent(action);
-        demandeRepository.setEtatDemande(demandeId,etatDemande);
+        Action newAction = new Action();
+        newAction.setNom_action(NomAction.VALIDATION_DE_DEMANDE);
+        newAction.setEtat_action(EtatAction.ENCOURS);
+        newAction.setDemande(e);
 
-        action.setDate_execution(new Timestamp(System.currentTimeMillis()));
-        action.setEtat_action(EtatAction.ENCOURS);
-        actionRepository.setPreviousEtatActionTermineByDemandeId(demandeId);
-
-        return actionRepository.save(action);
+        actionRepository.save(newAction);
     }
 
     public Action update(Action action, String demandeId, String id) {
@@ -68,6 +63,27 @@ public class ActionService {
         action.setDemande(e);
         action.setId(a.getId());
         return actionRepository.save(action);
+
+    }
+
+    public Action finishAction(Personne p, String demandeId, String actionId) {
+
+        Demande demande = demandeRepository.findById(demandeId).orElseThrow(() -> new DemandeNotFoundException(demandeId));
+        Action a = actionRepository.findById(actionId).orElseThrow(() -> new ActionNotFoundException(actionId));
+
+        NomAction nomAction = actionValidationHelper.getNextActionNameCorrespondingToEtatDemande(demande);
+
+        Action newAction = new Action();
+        newAction.setNom_action(nomAction);
+        newAction.setEtat_action(EtatAction.ENCOURS);
+        newAction.setDemande(demande);
+
+        a.setPersonne(p);
+        a.setEtat_action(EtatAction.TERMINEE);
+        a.setDate_execution(new Timestamp(System.currentTimeMillis()));
+
+        actionRepository.save(a);
+        return actionRepository.save(newAction);
 
     }
 }

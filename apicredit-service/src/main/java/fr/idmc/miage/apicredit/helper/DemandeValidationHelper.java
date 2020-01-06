@@ -2,11 +2,12 @@ package fr.idmc.miage.apicredit.helper;
 
 import fr.idmc.miage.apicredit.entity.Demande;
 import fr.idmc.miage.apicredit.exception.DemandeValidationException;
+import fr.idmc.miage.apicredit.input.InputDemande;
 import org.springframework.stereotype.Component;
 
 @Component
 public class DemandeValidationHelper {
-    public void validate(Demande demande){
+    public void validate(InputDemande demande){
         if (demande == null )
             throw new DemandeValidationException("La demande ne peut pas être null");
         if (demande.getNom().isBlank())

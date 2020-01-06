@@ -3,6 +3,7 @@ package fr.idmc.miage.apicredit.controler;
 
 import fr.idmc.miage.apicredit.assembler.ActionAssembleur;
 import fr.idmc.miage.apicredit.entity.Action;
+import fr.idmc.miage.apicredit.entity.Personne;
 import fr.idmc.miage.apicredit.service.ActionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -32,9 +33,9 @@ public class ActionDemandeControler {
         return new ResponseEntity<>(actionAssembleur.toResource(actionService.addAction(action,demandeId)),HttpStatus.CREATED);
     }
 
-    @PutMapping("/{demandeId}/actions/{id}")
-    public ResponseEntity<?> put(@RequestBody Action action,@PathVariable("demandeId") String demandeId, @PathVariable("id") String id){
-        Action a = actionService.update(action,demandeId,id);
+    @DeleteMapping("/{demandeId}/actions/{id}")
+    public ResponseEntity<?> put(@RequestBody Personne personne, @PathVariable("demandeId") String demandeId, @PathVariable("id") String id){
+        Action a = actionService.finishAction(personne,demandeId,id);
         return new ResponseEntity<>(a,HttpStatus.OK);
     }
 }
