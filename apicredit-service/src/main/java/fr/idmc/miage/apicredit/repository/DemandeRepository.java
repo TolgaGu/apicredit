@@ -11,12 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface DemandeRepository extends JpaRepository<Demande, String> {
 
-    @Query("Select demande From InputDemande demande where UPPER(demande.etat_demande) like UPPER(:recherche)")
+    @Query("Select demande From Demande demande where UPPER(demande.etat_demande) like UPPER(:recherche)")
     Page<Demande> findByStatusEquals(String recherche, Pageable pageable);
 
-
+/*
     @Modifying
     @Transactional
-    @Query("UPDATE InputDemande demande SET demande.etat_demande = :etatDemande where demande.id = :demandeId")
-    void setEtatDemande(String demandeId,EtatDemande etatDemande);
+    @Query("UPDATE Demande demande SET demande.etat_demande = :etatDemande where demande.id = :demandeId")
+    void setEtatDemande(String demandeId,EtatDemande etatDemande);*/
 }

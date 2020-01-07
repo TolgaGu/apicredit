@@ -5,6 +5,7 @@ import fr.idmc.miage.apicredit.assembler.PersonneAssembleur;
 import fr.idmc.miage.apicredit.entity.Demande;
 import fr.idmc.miage.apicredit.entity.Personne;
 import fr.idmc.miage.apicredit.service.PersonneService;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,7 +20,7 @@ import java.util.Optional;
 
 @RequestMapping("personnes")
 @RestController
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class PersonneControler {
 
     private final PersonneService personneService;

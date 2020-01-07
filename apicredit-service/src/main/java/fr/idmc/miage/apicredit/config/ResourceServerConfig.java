@@ -22,9 +22,9 @@ public class ResourceServerConfig {
                     .and()
                     .authorizeRequests()
                     .antMatchers("/demandes").permitAll()
-                    .antMatchers("/demandes/**").authenticated()
-                    .antMatchers("/actions/**").authenticated()
-                    .antMatchers("/personnes/**").authenticated();
+                    .antMatchers("/demandes/**").permitAll()
+                    .antMatchers("/actions/**").permitAll()
+                    .antMatchers("/personnes/**").permitAll();
         }
     }
     

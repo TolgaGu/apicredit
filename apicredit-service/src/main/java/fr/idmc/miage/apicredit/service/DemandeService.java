@@ -1,8 +1,6 @@
 package fr.idmc.miage.apicredit.service;
 
-import fr.idmc.miage.apicredit.entity.Action;
-import fr.idmc.miage.apicredit.entity.Demande;
-import fr.idmc.miage.apicredit.entity.EtatDemande;
+import fr.idmc.miage.apicredit.entity.*;
 import fr.idmc.miage.apicredit.exception.DemandeNotFoundException;
 import fr.idmc.miage.apicredit.helper.DemandeValidationHelper;
 import fr.idmc.miage.apicredit.input.InputDemande;
@@ -25,7 +23,9 @@ public class DemandeService {
 
     @Autowired
     private final DemandeRepository demandeRepository;
+
     private final ActionService actionService;
+
     private final DemandeValidationHelper demandeValidationHekper;
 
     public Page<Demande> findAll(Pageable pageable){
@@ -53,14 +53,18 @@ public class DemandeService {
         return demandeRepository.save(demande);
     }
 
-    public Demande delete(String id) {
-        Demande e = demandeRepository.findById(id).orElseThrow(() -> new DemandeNotFoundException(id));
-        e.setEtat_demande(EtatDemande.FIN);
+    public Demande delete(String demandeId, Personne personne) {
+        Demande e = demandeRepository.findById(demandeId).orElseThrow(() -> new DemandeNotFoundException(demandeId));
+        e.setEtat_demande(EtatDemande.REJET);
+        actionService.rejectDemandeAction(demandeId,personne);
         return demandeRepository.save(e);
     }
 
-    //je dois mettre a jour l'etat de la demande quand on fini une action
-    public void setEtatDemande(String idDemande, EtatDemande etatDemande){
-
-    }
+    /*
+    public void updateEtatDemande(String idDemande){
+        Demande e = demandeRepository.findById(idDemande).orElseThrow(() -> new DemandeNotFoundException(idDemande));
+        EtatDemande etatDemande = demandeValidationHekper.getEtatDemandeCorrespondantAEtatAction(e.getEtat_demande());
+        e.setEtat_demande(etatDemande);
+        demandeRepository.save(e);
+    }*/
 }

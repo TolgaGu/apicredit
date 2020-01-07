@@ -6,6 +6,7 @@ import fr.idmc.miage.apicredit.exception.DemandeNotFoundException;
 import fr.idmc.miage.apicredit.exception.PersonneNotFoundException;
 import fr.idmc.miage.apicredit.helper.PersonneValidationHelper;
 import fr.idmc.miage.apicredit.repository.PersonneRepository;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,9 +16,9 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class PersonneService {
-    @Autowired
+
     private PersonneRepository personneRepository;
     private PersonneValidationHelper personneValidationHelper;
 

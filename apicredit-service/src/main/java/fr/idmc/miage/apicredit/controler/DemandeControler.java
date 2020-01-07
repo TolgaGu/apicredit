@@ -6,6 +6,7 @@ import fr.idmc.miage.apicredit.entity.Personne;
 import fr.idmc.miage.apicredit.input.InputDemande;
 import fr.idmc.miage.apicredit.service.ActionService;
 import fr.idmc.miage.apicredit.service.DemandeService;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,11 +21,11 @@ import java.util.Optional;
 
 @RequestMapping("demandes")
 @RestController
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class DemandeControler {
+
     private final DemandeService demandeService;
     private final DemandeAssembleur demandeAssembleur;
-    private final ActionService actionService;
 
     @GetMapping
     public ResponseEntity<?> getAll(@PathParam("status") String status, Pageable pageable, PagedResourcesAssembler<Demande> pagedResourcesAssembler){
@@ -61,8 +62,8 @@ public class DemandeControler {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<?> delete(@PathVariable("id") String id){
-        Demande d = demandeService.delete(id);
+    public ResponseEntity<?> rejectDemande(@RequestBody Personne personne, @PathVariable("id") String id){
+        Demande d = demandeService.delete(id,personne);
         return  new ResponseEntity<>(d,HttpStatus.OK);
     }
 }
