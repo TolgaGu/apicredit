@@ -14,7 +14,7 @@ public class Account {
     private String username, password;
     private boolean active;
 
-    Account() {// JPA !
+    public Account() {// JPA !
     }
 
     public Account(String username, String password, boolean active) {

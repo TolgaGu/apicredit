@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.PersistenceProperty;
+import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 import java.util.Optional;
 
@@ -49,7 +50,7 @@ public class DemandeControler {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody InputDemande demande){
+    public ResponseEntity<?> create(@RequestBody @Valid InputDemande demande){
         Demande d = demandeService.create(demande);
         return new ResponseEntity<>(d,HttpStatus.CREATED);
     }
