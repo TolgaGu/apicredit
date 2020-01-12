@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -28,9 +29,7 @@ public class Client {
     private String adresse;
     private String date_de_naissance;
 
-
-    @OneToMany(mappedBy = "client")
-    private List<Demande> demandes;
+    private String private_id;
 
     public Client(String id){
         this.id = id;
@@ -41,5 +40,6 @@ public class Client {
         this.prenom=inputClient.getPrenom();
         this.adresse=inputClient.getAdresse();
         this.date_de_naissance=inputClient.getDate_de_naissance();
+        this.private_id=inputClient.getPrivate_id();
     }
 }

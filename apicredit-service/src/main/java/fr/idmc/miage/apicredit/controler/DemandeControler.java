@@ -4,10 +4,8 @@ import fr.idmc.miage.apicredit.assembler.DemandeAssembleur;
 import fr.idmc.miage.apicredit.entity.Demande;
 import fr.idmc.miage.apicredit.entity.Personne;
 import fr.idmc.miage.apicredit.input.InputDemande;
-import fr.idmc.miage.apicredit.service.ActionService;
 import fr.idmc.miage.apicredit.service.DemandeService;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
@@ -15,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.PersistenceProperty;
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 import java.util.Optional;
@@ -27,6 +24,7 @@ public class DemandeControler {
 
     private final DemandeService demandeService;
     private final DemandeAssembleur demandeAssembleur;
+
 
     @GetMapping
     public ResponseEntity<?> getAll(@PathParam("status") String status, Pageable pageable, PagedResourcesAssembler<Demande> pagedResourcesAssembler){
@@ -43,17 +41,21 @@ public class DemandeControler {
 
     @GetMapping(value = "{id}")
     public ResponseEntity<?> getById(@PathVariable("id") String id){
+
         return Optional.ofNullable(demandeService.findById(id))
                 .filter(Optional::isPresent)
                 .map(i -> new ResponseEntity<>(demandeAssembleur.toResource(i.get()), HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+
     }
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody @Valid InputDemande demande){
-        String d = demandeService.create(demande);
+        Demande d = demandeService.create(demande);
         return new ResponseEntity<>(d,HttpStatus.CREATED);
     }
+
+
 
 
     @PutMapping("{id}")

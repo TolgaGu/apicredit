@@ -5,10 +5,11 @@ import fr.idmc.miage.apicredit.exception.ClientNotFoundException;
 import fr.idmc.miage.apicredit.exception.DemandeNotFoundException;
 import fr.idmc.miage.apicredit.helper.DemandeValidationHelper;
 import fr.idmc.miage.apicredit.input.InputDemande;
-import fr.idmc.miage.apicredit.repository.ActionRepository;
 import fr.idmc.miage.apicredit.repository.ClientRepository;
 import fr.idmc.miage.apicredit.repository.DemandeRepository;
+import fr.idmc.miage.apicredit.synchronize.SynchronizeDatabase;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -37,17 +38,40 @@ public class DemandeService {
         return demandeRepository.findAll(pageable);
     }
 
-    public String create(InputDemande demande){
+    public Demande create(InputDemande demande) {
 
-        Client client = clientRepository.findById(demande.getClient().getId()).orElseThrow(() -> new ClientNotFoundException(demande.getClient().getId()));
+        Client client = clientRepository.findByPrivateId(demande.getClient()).orElseThrow(() -> new ClientNotFoundException(demande.getClient()));
+
+        boolean synchronize =true;
+
+        if (demande.getPrivate_id() == null){
+            int length = 25;
+            boolean useLetters = true;
+            boolean useNumbers = true;
+            synchronize=false;
+            String generatedString = RandomStringUtils.random(length, useLetters, useNumbers);
+            demande.setPrivate_id(generatedString);
+        }
+
         demandeValidationHekper.validate(demande);
         Demande d = new Demande(demande);
+        d.setEtat_demande(EtatDemande.VERIFICATION_DEMANDE);
         d = demandeRepository.save(d);
-        actionService.addAction(d.getId());
-        return d.getId();
+
+        if(!synchronize){
+            SynchronizeDatabase.syncDemande(d);
+        }
+        return d;
     }
 
     public Optional<Demande> findById(String id) {
+
+        boolean b = demandeRepository.findById(id).isEmpty();
+        Demande d =null;
+        if (b){
+            return demandeRepository.findByPrivateId(id);
+        }
+
         return demandeRepository.findById(id);
     }
 
@@ -67,11 +91,5 @@ public class DemandeService {
         return demandeRepository.save(e);
     }
 
-    /*
-    public void updateEtatDemande(String idDemande){
-        Demande e = demandeRepository.findById(idDemande).orElseThrow(() -> new DemandeNotFoundException(idDemande));
-        EtatDemande etatDemande = demandeValidationHekper.getEtatDemandeCorrespondantAEtatAction(e.getEtat_demande());
-        e.setEtat_demande(etatDemande);
-        demandeRepository.save(e);
-    }*/
+
 }

@@ -26,7 +26,7 @@ public class ActionValidationHelper {
 
         EtatDemande currentEtat = demande.getEtat_demande();
         NomAction newAction = null;
-        if (currentEtat == null) {
+        if (currentEtat == EtatDemande.VERIFICATION_DEMANDE) {
             newAction = NomAction.EN_ATTENTE_D_ATTRIBUTION;
         } else {
             switch (currentEtat) {
@@ -40,7 +40,7 @@ public class ActionValidationHelper {
                     newAction = NomAction.NOTIFICATION;
                     break;
                 case ACCEPTATION:
-                    newAction = NomAction.NOTIFICATION;
+                    newAction = NomAction.CLOTURATION;
                     break;
                 case FIN:
                     break;

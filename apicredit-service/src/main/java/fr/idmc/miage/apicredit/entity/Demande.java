@@ -23,9 +23,10 @@ public class Demande  {
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
 
-    @ManyToOne
-    @JoinColumn(name = "idclient")
-    private Client client;
+
+    private String private_id;
+
+    private String client;
 
     private int revenus_sur_trois_annees;
     private int montant_credit;
@@ -33,7 +34,7 @@ public class Demande  {
     private EtatDemande etat_demande;
 
     public Demande(String id){
-        this.id=id;
+        this.private_id =id;
     }
 
     public Demande(InputDemande inputDemande){

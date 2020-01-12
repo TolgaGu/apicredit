@@ -21,10 +21,8 @@ public class ResourceServerConfig {
                     .authenticationEntryPoint(myEntryPoint)
                     .and()
                     .authorizeRequests()
-                    .antMatchers("/demandes").permitAll()
-                    .antMatchers("/demandes/**").permitAll()
-                    .antMatchers("/actions/**").permitAll()
-                    .antMatchers("/personnes/**").permitAll()
+                    .antMatchers("POST","/demandes").permitAll()
+                    .antMatchers("/demandes/**").authenticated()
                     .antMatchers("/h2-console/**").permitAll();
         }
     }

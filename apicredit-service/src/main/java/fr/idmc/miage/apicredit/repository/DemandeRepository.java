@@ -9,11 +9,16 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 public interface DemandeRepository extends JpaRepository<Demande, String> {
 
     @Query("Select demande From Demande demande where UPPER(demande.etat_demande) like UPPER(:recherche)")
     Page<Demande> findByStatusEquals(String recherche, Pageable pageable);
 
+    @Query("SELECT demande FROM Demande demande " +
+            "WHERE demande.private_id = :id")
+    Optional<Demande> findByPrivateId(String id);
 /*
     @Modifying
     @Transactional

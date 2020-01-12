@@ -15,8 +15,9 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class InputDemande {
 
+    private String private_id;
     @NotNull
-    private Client client;
+    private String client;
     @NotNull
     private int revenus_sur_trois_annees;
     @NotNull

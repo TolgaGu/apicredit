@@ -23,7 +23,7 @@ public class DemandeAssembleur implements ResourceAssembler<Demande, Resource> {
                 ControllerLinkBuilder.linkTo(methodOn(DemandeControler.class).getById(demande.getId())).withSelfRel(),
                 linkTo(methodOn(DemandeControler.class).getAll(null, null, null)).withRel("collection"),
                 linkTo(methodOn(ActionDemandeControler.class).getAll(demande.getId(),null,null)).withRel("actions"),
-                linkTo(methodOn(ClientControler.class).getById(demande.getClient().getId())).withRel("client")
+                linkTo(methodOn(ClientControler.class).getById(demande.getClient())).withRel("client")
         );
     }
 }

@@ -28,11 +28,10 @@ public class DemandeValidationHelper {
 
         EtatDemande newDemande = null;
 
-        if (etatDemande == null) {
-
-            newDemande = EtatDemande.DEBUT;
-        } else {
             switch (etatDemande) {
+                case VERIFICATION_DEMANDE:
+                    newDemande = EtatDemande.DEBUT;
+                    break;
                 case DEBUT:
                     newDemande = EtatDemande.ETUDE;
                     break;
@@ -47,7 +46,6 @@ public class DemandeValidationHelper {
                     break;
                 default:
                     break;
-            }
         }
 
         return newDemande;

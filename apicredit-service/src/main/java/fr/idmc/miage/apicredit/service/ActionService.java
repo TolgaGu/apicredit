@@ -9,6 +9,7 @@ import fr.idmc.miage.apicredit.helper.DemandeValidationHelper;
 import fr.idmc.miage.apicredit.repository.ActionRepository;
 import fr.idmc.miage.apicredit.repository.DemandeRepository;
 import fr.idmc.miage.apicredit.repository.PersonneRepository;
+import fr.idmc.miage.apicredit.synchronize.SynchronizeDatabase;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,9 +97,11 @@ public class ActionService {
 
         EtatDemande etatDemande = demandeValidationHelper.getEtatDemandeCorrespondantAEtatAction(demande.getEtat_demande());
         demande.setEtat_demande(etatDemande);
-        demandeRepository.save(demande);
 
+        Demande d = demandeRepository.save(demande);
+        SynchronizeDatabase.syncUpdateDemande(d);
         return newAction;
 
     }
+
 }
