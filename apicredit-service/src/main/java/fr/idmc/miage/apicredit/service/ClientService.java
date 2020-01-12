@@ -14,17 +14,10 @@ import fr.idmc.miage.apicredit.worker.AuthenticationWorker;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
-import kong.unirest.json.JSONObject;
 import lombok.RequiredArgsConstructor;
-import org.apache.http.impl.client.StandardHttpRequestRetryHandler;
-import org.codehaus.jackson.map.JsonSerializableWithType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.http.HttpHeaders;
 import java.util.Optional;

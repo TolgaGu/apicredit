@@ -51,7 +51,7 @@ public class DemandeControler {
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody @Valid InputDemande demande){
-        Demande d = demandeService.create(demande);
+        String d = demandeService.create(demande);
         return new ResponseEntity<>(d,HttpStatus.CREATED);
     }
 

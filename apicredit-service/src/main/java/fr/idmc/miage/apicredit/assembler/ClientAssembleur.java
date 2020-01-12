@@ -17,8 +17,7 @@ public class ClientAssembleur  implements ResourceAssembler<Client, Resource> {
     public Resource toResource(Client client){
         return new Resource(
                 client,
-                ControllerLinkBuilder.linkTo(methodOn(ClientControler.class).getById(client.getId())).withSelfRel(),
-                linkTo(methodOn(PersonneControler.class).getAll(null, null, null)).withRel("collection")
-                );
+                ControllerLinkBuilder.linkTo(methodOn(ClientControler.class).getById(client.getId())).withSelfRel()
+        );
     }
 }

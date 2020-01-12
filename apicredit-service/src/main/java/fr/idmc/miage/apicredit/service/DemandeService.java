@@ -1,10 +1,12 @@
 package fr.idmc.miage.apicredit.service;
 
 import fr.idmc.miage.apicredit.entity.*;
+import fr.idmc.miage.apicredit.exception.ClientNotFoundException;
 import fr.idmc.miage.apicredit.exception.DemandeNotFoundException;
 import fr.idmc.miage.apicredit.helper.DemandeValidationHelper;
 import fr.idmc.miage.apicredit.input.InputDemande;
 import fr.idmc.miage.apicredit.repository.ActionRepository;
+import fr.idmc.miage.apicredit.repository.ClientRepository;
 import fr.idmc.miage.apicredit.repository.DemandeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,9 @@ public class DemandeService {
     @Autowired
     private final DemandeRepository demandeRepository;
 
+    @Autowired
+    private final ClientRepository clientRepository;
+
     private final ActionService actionService;
 
     private final DemandeValidationHelper demandeValidationHekper;
@@ -32,12 +37,14 @@ public class DemandeService {
         return demandeRepository.findAll(pageable);
     }
 
-    public Demande create(InputDemande demande){
+    public String create(InputDemande demande){
+
+        Client client = clientRepository.findById(demande.getClient().getId()).orElseThrow(() -> new ClientNotFoundException(demande.getClient().getId()));
         demandeValidationHekper.validate(demande);
         Demande d = new Demande(demande);
         d = demandeRepository.save(d);
         actionService.addAction(d.getId());
-        return d;
+        return d.getId();
     }
 
     public Optional<Demande> findById(String id) {
