@@ -1,8 +1,6 @@
 package fr.idmc.miage.apicredit.assembler;
 
-import fr.idmc.miage.apicredit.controler.ActionDemandeControler;
 import fr.idmc.miage.apicredit.controler.ActionPersonneControler;
-import fr.idmc.miage.apicredit.controler.DemandeControler;
 import fr.idmc.miage.apicredit.controler.PersonneControler;
 import fr.idmc.miage.apicredit.entity.Personne;
 import org.springframework.hateoas.Resource;

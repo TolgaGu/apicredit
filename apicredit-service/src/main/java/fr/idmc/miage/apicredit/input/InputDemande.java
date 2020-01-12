@@ -1,9 +1,11 @@
 package fr.idmc.miage.apicredit.input;
 
+import fr.idmc.miage.apicredit.entity.Client;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.SafeHtml;
 
 import javax.validation.constraints.NotNull;
 
@@ -14,13 +16,7 @@ import javax.validation.constraints.NotNull;
 public class InputDemande {
 
     @NotNull
-    private String nom;
-    @NotNull
-    private String prenom;
-    @NotNull
-    private String adresse;
-    @NotNull
-    private String date_de_naissance;
+    private Client client;
     @NotNull
     private int revenus_sur_trois_annees;
     @NotNull

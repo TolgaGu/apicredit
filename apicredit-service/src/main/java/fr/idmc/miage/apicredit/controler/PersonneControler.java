@@ -2,12 +2,9 @@ package fr.idmc.miage.apicredit.controler;
 
 
 import fr.idmc.miage.apicredit.assembler.PersonneAssembleur;
-import fr.idmc.miage.apicredit.entity.Demande;
 import fr.idmc.miage.apicredit.entity.Personne;
 import fr.idmc.miage.apicredit.service.PersonneService;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;

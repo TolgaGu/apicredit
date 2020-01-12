@@ -24,7 +24,8 @@ public class ResourceServerConfig {
                     .antMatchers("/demandes").permitAll()
                     .antMatchers("/demandes/**").permitAll()
                     .antMatchers("/actions/**").permitAll()
-                    .antMatchers("/personnes/**").permitAll();
+                    .antMatchers("/personnes/**").permitAll()
+                    .antMatchers("/h2-console/**").permitAll();
         }
     }
     

@@ -25,7 +25,6 @@ class PrincipalRestController {
 
     @PostMapping(value = "/user")
     public ResponseEntity<?> create(@RequestBody Account account){
-
         return new ResponseEntity<>(accountRepository.save(new Account("test", passwordEncoder.encode("test"),true)), HttpStatus.CREATED);
     }
 }
