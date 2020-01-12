@@ -4,6 +4,7 @@ import fr.idmc.miage.apicredit.assembler.ClientAssembleur;
 import fr.idmc.miage.apicredit.entity.Client;
 import fr.idmc.miage.apicredit.entity.Demande;
 import fr.idmc.miage.apicredit.entity.Personne;
+import fr.idmc.miage.apicredit.exception.ClientAuthenticationCreatingException;
 import fr.idmc.miage.apicredit.input.InputClient;
 import fr.idmc.miage.apicredit.input.InputDemande;
 import fr.idmc.miage.apicredit.service.ClientService;
@@ -50,8 +51,7 @@ public class ClientControler {
 
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody @Valid InputClient client){
-        //Client d = clientService.create(client);
+    public ResponseEntity<?> create(@RequestBody @Valid InputClient client) throws ClientAuthenticationCreatingException {
         return new ResponseEntity<>(clientService.create(client),HttpStatus.CREATED);
     }
 
