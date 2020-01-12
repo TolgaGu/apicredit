@@ -57,11 +57,11 @@ public class OAuthConfiguration extends AuthorizationServerConfigurerAdapter {
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
-                .withClient("html5")
+                .withClient("apicredit")
                 .secret(passwordEncoder.encode("apiprojectsecret"))
                 .authorizedGrantTypes("password", "authorization_code", "refresh_token")
                 .scopes("read", "write")
-                .accessTokenValiditySeconds(360)
+                .accessTokenValiditySeconds(1800)
                 .refreshTokenValiditySeconds(3600);
     }
 

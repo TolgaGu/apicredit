@@ -1,0 +1,1297 @@
+{
+	"info": {
+		"_postman_id": "1a317070-aede-4ea1-913e-a8a9c454c7d1",
+		"name": "apicredit",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "apicredit-service-users",
+			"item": [
+				{
+					"name": "clients",
+					"item": [
+						{
+							"name": "client.create",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "54650adc-e52d-473e-86a6-601d9b8ed4a1",
+										"exec": [
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.environment.set(\"clientId\", jsonData.id);",
+											"pm.environment.set(\"privateId\", jsonData.private_id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "apicredit",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "apiprojectsecret",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t \"nom\":\"post\",\n     \"prenom\":\"prenompost\",\n     \"adresse\":\"adresse du post\",\n     \"date_de_naissance\":\"12-10-1988\",\n     \"password\" : \"mypassword\"\n     \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/clients",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"clients"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "client.create.get",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "54650adc-e52d-473e-86a6-601d9b8ed4a1",
+										"exec": [
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.environment.set(\"clientId\", jsonData.id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/clients/{{privateId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"clients",
+										"{{privateId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "oauth",
+					"item": [
+						{
+							"name": "http://localhost:9191/oauth/token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "16a6c93c-f3ae-4f6f-8982-60cdc6db2b40",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.environment.set(\"access_token\",jsonData.access_token);",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "apicredit",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "apiprojectsecret",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "password",
+											"value": "mypassword",
+											"type": "text"
+										},
+										{
+											"key": "grant_type",
+											"value": "password",
+											"type": "text"
+										},
+										{
+											"key": "username",
+											"value": "{{privateId}}",
+											"type": "text"
+										},
+										{
+											"key": "client_id",
+											"value": "apicredit",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:9191/oauth/token",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9191",
+									"path": [
+										"oauth",
+										"token"
+									]
+								},
+								"description": "getting token"
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "demandes",
+					"item": [
+						{
+							"name": "deamande.create",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "e33d221a-0003-456e-b52d-6b9d73e19a34",
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"pm.environment.set(\"demandeId\",jsonData.id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "accessToken",
+											"value": "{{access_token}}",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t \"client\":\"{{privateId}}\",\n     \"revenus_sur_trois_annees\":\"20000\",\n     \"montant_credit\":\"10000\",\n     \"duree_en_mois\":\"24\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/demandes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"demandes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "demande.findById",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "a6d585cd-cb6c-4007-b54b-c3aa0994865f",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "accessToken",
+											"value": "{{access_token}}",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "http://localhost:8081/demandes/{{demandeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"demandes",
+										"{{demandeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "demande.findById (forbidden)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "a6d585cd-cb6c-4007-b54b-c3aa0994865f",
+										"exec": [
+											"pm.test(\"Status code is 403\", function () {",
+											"    pm.response.to.have.status(403);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "accessToken",
+											"value": "{{access_token}}",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "secret",
+											"value": "apicredit",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8081/demandes/ff8081816e9e21ef016e9e532dbd80000",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"demandes",
+										"ff8081816e9e21ef016e9e532dbd80000"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "demande.findById (unautorized)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "a6d585cd-cb6c-4007-b54b-c3aa0994865f",
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "accessToken",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/x-www-form-urlencoded"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "http://localhost:8081/demandes/{{demandeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"demandes",
+										"{{demandeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "demande.findById (notfound)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c6b8a163-0d81-4a4e-bc1d-a199151d8232",
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "accessToken",
+											"value": "{{access_token}}",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8081/demandes/ff8081816eedgdfgdfgdfsgbdfg",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"demandes",
+										"ff8081816eedgdfgdfgdfsgbdfg"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "apicredit-service-employees",
+			"item": [
+				{
+					"name": "clients",
+					"item": [
+						{
+							"name": "client.findByprivateId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "54650adc-e52d-473e-86a6-601d9b8ed4a1",
+										"exec": [
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/clients/{{privateId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"clients",
+										"{{privateId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "actions",
+					"item": [
+						{
+							"name": "demande.finishAction-1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "78399669-13f6-4f0f-b55b-c9ea7c97c827",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\n      \"id\":\"6rzgbr44b8g9t6r4\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/demandes/8a80cb816f24c0ea016f24d97157000f1/actions/8a88808d6f972555016f97255ff60007",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"demandes",
+										"8a80cb816f24c0ea016f24d97157000f1",
+										"actions",
+										"8a88808d6f972555016f97255ff60007"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "employes",
+					"item": [
+						{
+							"name": "personne.create",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "961af495-e1b0-4c2a-b350-c118aea967d6",
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.environment.set(\"personneId\", jsonData.id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"nom\":\"test\",\n\t\"prenom\":\"test\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/personnes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"personnes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "personne.getall",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "039ba1bf-ab5f-4cf3-a0b5-0e36d423aecd",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/personnes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"personnes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "personne.getById",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "039ba1bf-ab5f-4cf3-a0b5-0e36d423aecd",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/personnes/{{personneId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"personnes",
+										"{{personneId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "personne.create (not valide)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "961af495-e1b0-4c2a-b350-c118aea967d6",
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"nom\":\"test\",\n\t\"prenome\":\"test\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/personnes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"personnes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "personne.actions.getAll",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "97ca14c4-5e79-4302-8c07-988b168765f0",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "apicredit",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "apiprojectsecret",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "miage",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "sidsarethebest",
+											"type": "text"
+										},
+										{
+											"key": "grant_type",
+											"value": "password",
+											"type": "text"
+										},
+										{
+											"key": "client_secret",
+											"value": "apiprojectsecret",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "client_id",
+											"value": "html5",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8080/personnes/6rzgbr44b8g9t6r4/actions",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"personnes",
+										"6rzgbr44b8g9t6r4",
+										"actions"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "demandes.actions",
+					"item": [
+						{
+							"name": "http://localhost:8080/demandes/ff8081816e9e21ef016e9e532db80000/actions",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "54778d97-5b57-46c6-85e2-8a32b15423ff",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "accessToken",
+											"value": "{{access_token}}",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/demandes/8a80cb816f24c0ea016f24d97157000f1/actions",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"demandes",
+										"8a80cb816f24c0ea016f24d97157000f1",
+										"actions"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "demandes",
+					"item": [
+						{
+							"name": "deamande.create",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "e33d221a-0003-456e-b52d-6b9d73e19a34",
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"pm.environment.set(\"demandeId\",jsonData.id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t \"client\":\"{{privateId}}\",\n     \"revenus_sur_trois_annees\":\"20000\",\n     \"montant_credit\":\"10000\",\n     \"duree_en_mois\":\"24\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/demandes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"demandes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "demande.findById",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "a6d585cd-cb6c-4007-b54b-c3aa0994865f",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "http://localhost:8080/demandes/{{demandeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"demandes",
+										"{{demandeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "demande.findById (notfound)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c6b8a163-0d81-4a4e-bc1d-a199151d8232",
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "http://localhost:8080/demandes/ff8081816eedgdfgdfgdfsgbdfg",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"demandes",
+										"ff8081816eedgdfgdfgdfsgbdfg"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "demande.getall",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "b6cc30bb-a9c9-4ea4-b472-73e109c0c52d",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/demandes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"demandes"
+									]
+								},
+								"description": "start point"
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

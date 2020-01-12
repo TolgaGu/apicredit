@@ -11,7 +11,6 @@ import java.sql.Timestamp;
 @Entity
 @Data
 @NoArgsConstructor
-@Builder
 @AllArgsConstructor
 public class Action {
 

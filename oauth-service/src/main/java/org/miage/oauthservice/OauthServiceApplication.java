@@ -35,7 +35,6 @@ class AccountCLR implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
-        //Stream.of("olivier,{noop}sesame", "toto,azerty", "titi,grosminet")
         Stream.of("miage," + passwordEncoder.encode("sidsarethebest"))
                 .map(x -> x.split(","))
                 .forEach(tpl -> accountRepository.save(new Account(tpl[0], tpl[1], true)));

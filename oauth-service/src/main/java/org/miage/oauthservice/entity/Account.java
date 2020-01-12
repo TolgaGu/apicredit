@@ -1,20 +1,30 @@
 package org.miage.oauthservice.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.UniqueElements;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.Constraint;
 
 
 @Entity
+@Getter
 public class Account {
+
 
     @Id
     @GeneratedValue
     private Long id;
-    private String username, password;
+    private String username;
+    private String password;
     private boolean active;
 
-    Account() {// JPA !
+    public Account() {// JPA !
     }
 
     public Account(String username, String password, boolean active) {
@@ -23,19 +33,4 @@ public class Account {
         this.active = active;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
 }

@@ -18,11 +18,15 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 public class ActionAssembleur implements ResourceAssembler<Action, Resource> {
     @Override
     public Resource toResource(Action action) {
-        return new Resource(
+        Resource r = new Resource(
                 action,
-                ControllerLinkBuilder.linkTo(methodOn(ActionControler.class).getById(action.getId(),null,null)).withSelfRel(),
-                linkTo(methodOn(DemandeControler.class).getById(action.getDemande().getId())).withRel("demande"),
-                linkTo(methodOn(PersonneControler.class).getById(action.getPersonne().getId())).withRel("personne")
+                ControllerLinkBuilder.linkTo(methodOn(ActionControler.class).getById(action.getId(), null, null)).withSelfRel(),
+                linkTo(methodOn(DemandeControler.class).getById(action.getDemande().getId())).withRel("demande")
         );
+
+        if (action.getPersonne() != null) {
+            r.add(linkTo(methodOn(PersonneControler.class).getById(action.getPersonne().getId())).withRel("personne"));
+        }
+        return r;
     }
 }

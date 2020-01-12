@@ -2,11 +2,11 @@ package fr.idmc.miage.apicredit.controler;
 
 
 import fr.idmc.miage.apicredit.assembler.PersonneAssembleur;
-import fr.idmc.miage.apicredit.entity.Demande;
 import fr.idmc.miage.apicredit.entity.Personne;
+import fr.idmc.miage.apicredit.exception.ClientAuthenticationCreatingException;
+import fr.idmc.miage.apicredit.input.InputClient;
 import fr.idmc.miage.apicredit.service.PersonneService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
@@ -14,12 +14,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 import java.util.Optional;
 
 @RequestMapping("personnes")
 @RestController
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class PersonneControler {
 
     private final PersonneService personneService;
@@ -44,6 +45,11 @@ public class PersonneControler {
                 .filter(Optional::isPresent)
                 .map(i -> new ResponseEntity<>(personneAssembleur.toResource(i.get()), HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @PostMapping
+    public ResponseEntity<?> create(@RequestBody @Valid Personne personne) {
+        return new ResponseEntity<>(personneService.create(personne),HttpStatus.CREATED);
     }
 
 

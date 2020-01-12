@@ -4,6 +4,7 @@ package fr.idmc.miage.apicredit.controler;
 import fr.idmc.miage.apicredit.assembler.ActionAssembleur;
 import fr.idmc.miage.apicredit.entity.Action;
 import fr.idmc.miage.apicredit.service.ActionService;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -19,10 +20,10 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("personnes")
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class ActionPersonneControler {
 
-    @Autowired
+
     private final ActionService actionService;
     private final ActionAssembleur actionAssembleur;
 
