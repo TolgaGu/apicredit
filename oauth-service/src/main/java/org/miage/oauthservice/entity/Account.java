@@ -1,5 +1,7 @@
 package org.miage.oauthservice.entity;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -8,9 +10,11 @@ import javax.persistence.Id;
 @Entity
 public class Account {
 
+
     @Id
-    @GeneratedValue
-    private Long id;
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    private String id;
     private String username, password;
     private boolean active;
 
@@ -23,7 +27,7 @@ public class Account {
         this.active = active;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
